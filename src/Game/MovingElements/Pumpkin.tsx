@@ -11,12 +11,6 @@ const Pumpkin = () => {
     }
   }, [window, myId])
   
-  const [velocity, setVelocity] = useState(0);
-  const jumpStrength = 10;
-
-  const handleJump = () => {
-    setVelocity(-jumpStrength);
-  };
 
   return (
     <Sprite

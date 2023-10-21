@@ -1,8 +1,12 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer"
 import { Game, Pumpkins, UpdatePumpkin } from "./types"
 
+// how hight the pumpkin jumps
+const JUMP_STRENGTH = 10
+
 type GameActions = {
   updatePumpkin: (params: {id: PlayerId, updatePumpkin: UpdatePumpkin}) => void
+  jumpPumpkin: (params: {id: PlayerId }) => void
 }
 
 declare global {
@@ -31,6 +35,9 @@ Rune.initLogic({
   actions: {
     updatePumpkin: ({id, updatePumpkin}, {game}) =>{
       game.pumpkins = {...game.pumpkins, [id]: {...game.pumpkins[id], ...updatePumpkin}}
+    },
+    jumpPumpkin: ({id}, {game}) =>{
+      game.pumpkins = {...game.pumpkins, [id]: {...game.pumpkins[id], velocity: -JUMP_STRENGTH}}
     },
   },
     "update": ({ game }: { game: Game }) => {

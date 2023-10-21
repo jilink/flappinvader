@@ -26,7 +26,7 @@ function App() {
   }
 
   return (
-    <Canvas>
+    <Canvas id={myId}>
       <GameContext.Provider
         value={{
           game,
