@@ -20,14 +20,15 @@ export const Canvas: FC<PropsWithChildren> = ({children}) => {
     <Stage
       width={window.innerWidth}
       height={window.innerHeight}
-      options={{ backgroundColor: "blue" }}
+      onPointerUp={() => console.log("JUMP")
+      }
     >
       <TilingSprite
         image={"/images/game_bg.png"}
         width={window.innerWidth}
         height={window.innerHeight}
         tilePosition={{ x: backgroundX, y: 0 }}
-        tileScale={{ x: 1, y: 0.8 }}
+        tileScale={{ x: 1, y: 0.89 }}
       />
       {children}
     </Stage>

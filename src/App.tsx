@@ -1,26 +1,45 @@
-import { useEffect, useState } from "react"
-import { GameState } from "./logic.ts"
-import { Canvas } from "./Game/Canvas.tsx"
+import type { Players } from "rune-games-sdk";
+import type { Game } from "./types.ts";
+
+import { useEffect, useState } from "react";
+import { Canvas } from "./Game/Canvas.tsx";
+import GameComponent from "./Game/Game.tsx";
+import GameContext from "./context/game-context.tsx";
 
 function App() {
-  const [game, setGame] = useState<GameState>()
+  const [game, setGame] = useState<Game>();
+  const [myId, setMyId] = useState<string>();
+  const [players, setPlayers] = useState<Players>();
+
   useEffect(() => {
     Rune.initClient({
-      onChange: ({ game }) => {
-        setGame(game)
+      onChange: ({ game, players, yourPlayerId }) => {
+        setGame(game);
+        setMyId(yourPlayerId);
+        setPlayers(players);
       },
-    })
-  }, [])
+    });
+  }, []);
 
   if (!game) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
-    <>
-     <Canvas/>
-    </>
-  )
+    <Canvas>
+      <GameContext.Provider
+        value={{
+          game,
+          players,
+          myId,
+          me: players?.[myId || 0],
+          mePumpkin: game.pumpkins?.[myId || 0],
+        }}
+      >
+        <GameComponent />
+      </GameContext.Provider>
+    </Canvas>
+  );
 }
 
-export default App
+export default App;
