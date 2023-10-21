@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Sprite } from "@pixi/react";
+import { Sprite, useTick } from "@pixi/react";
 import GameContext from "../../context/game-context";
 
 const INIT_GHOSTS_X_POSITION = window.innerWidth;
@@ -10,32 +10,16 @@ const INIT_GHOSTS_Y_POSITION = {
 };
 const INTER_GHOST_SPACING = 40;
 
-function getRandomKey(obj: Record<string, number>) {
-  const keys = Object.keys(obj);
-  const randomIndex = Math.floor(Math.random() * keys.length);
-  return keys[randomIndex];
-}
-
 const Ghosts = () => {
   const ghostNum = 6;
-  const randomPosition = getRandomKey(
-    INIT_GHOSTS_Y_POSITION
-  ) as keyof typeof INIT_GHOSTS_Y_POSITION;
 
   const [xPositions, setXPositions] = useState(
     Array.from({ length: ghostNum }, () => INIT_GHOSTS_X_POSITION)
   );
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Update x positions for each ghost
-      setXPositions((prevXPositions) => prevXPositions.map((x) => x - 1));
-    }, 10);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [window]);
+  useTick(() =>
+    setXPositions((prevXPositions) => prevXPositions.map((x) => x - 1))
+  );
 
   const ghosts = xPositions.map((x, index) => (
     <Sprite
@@ -45,7 +29,7 @@ const Ghosts = () => {
       scale={{ x: 0.5, y: 0.5 }}
       x={x}
       y={
-        window.innerHeight / INIT_GHOSTS_Y_POSITION[randomPosition] +
+        window.innerHeight / INIT_GHOSTS_Y_POSITION.middle +
         index * INTER_GHOST_SPACING
       }
     />
