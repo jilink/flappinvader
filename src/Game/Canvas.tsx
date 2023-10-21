@@ -1,32 +1,35 @@
-import { BlurFilter, TextStyle } from "pixi.js";
-import { Stage, Container, Sprite, Text } from "@pixi/react";
-import { useMemo } from "react";
+import type {FC, PropsWithChildren} from "react"
+import { Stage, TilingSprite } from "@pixi/react";
+import { useEffect, useState } from "react";
 
-export const Canvas = () => {
-  const blurFilter = useMemo(() => new BlurFilter(4), []);
+export const Canvas: FC<PropsWithChildren> = ({children}) => {
+  const [backgroundX, setBacgrkoundx] = useState(0);
+  const backgroundSpeed = -1;
+
+  useEffect(() => {
+    const scrollBacgrkound = setInterval(() => {
+      setBacgrkoundx((x) => x + backgroundSpeed);
+    }, 20);
+
+    return () => {
+      clearInterval(scrollBacgrkound);
+    };
+  }, [backgroundSpeed]);
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight} options={{ backgroundColor: "blue" }}>
-      <Sprite
-        image="https://pixijs.io/pixi-react/img/bunny.png"
-        x={100}
-        y={270}
-        anchor={{ x: 0.5, y: 0.5 }}
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      options={{ backgroundColor: "blue" }}
+    >
+      <TilingSprite
+        image={"/images/game_bg.png"}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        tilePosition={{ x: backgroundX, y: 0 }}
+        tileScale={{ x: 1, y: 0.8 }}
       />
-
-      <Container x={100} y={100}>
-        <Text
-          style={
-            new TextStyle({
-              fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-              fontSize: 30,
-              fill: ["#ffffff", "#00ff99"]
-            })
-          }
-          text="Hello World"
-          anchor={{ x: 0.5, y: 0.5 }}
-        />
-      </Container>
+      {children}
     </Stage>
   );
 };
