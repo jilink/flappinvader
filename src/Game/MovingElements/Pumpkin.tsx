@@ -4,6 +4,7 @@ import type { FC } from "react";
 import React, { useContext, useEffect } from "react";
 import { Sprite } from "@pixi/react";
 import GameContext from "../../context/game-context";
+import Candy from "./Candy";
 
 type PumpkinProps = {
   id: string;
@@ -44,12 +45,14 @@ const Pumpkins = () => {
   return (
     <>
       {Object.keys(game?.pumpkins || []).map((id) => (
-        <Pumpkin
-          id={id}
-          key={id}
-          pumpkin={game?.pumpkins[id]}
-          isMe={id === myId}
-        />
+        <React.Fragment key={id}>
+          <Pumpkin id={id} pumpkin={game?.pumpkins[id]} isMe={id === myId} />
+          <Candy
+            candy={game?.pumpkins[id].candy}
+            isMe={id === myId}
+            color={game?.pumpkins[id]?.color}
+          />
+        </React.Fragment>
       ))}
     </>
   );
