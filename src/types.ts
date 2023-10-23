@@ -19,7 +19,7 @@ export type Pumpkin = {
   rotation: number
   maxHeight: number
   maxWidth: number
-  color?: string;
+  color?: number;
   candy?: Candy
 }
 

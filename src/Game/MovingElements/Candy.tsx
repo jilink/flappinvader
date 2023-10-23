@@ -3,14 +3,7 @@ import GameContext from '../../context/game-context';
 import { Sprite } from '@pixi/react';
 
 const Candy = () => {
-  const { mePumpkin, myId } = useContext(GameContext);
-  useEffect(() => {
-    // we sent first position of pumpkin to server since it depends on screen size
-    if(myId) {
-        Rune.actions.updatePumpkin({id: myId, updatePumpkin: {maxHeight: window.innerHeight, y: window.innerHeight / 2}});
-    }
-  }, [window, myId])
-  
+  const { mePumpkin } = useContext(GameContext);
 
   return (
     <Sprite

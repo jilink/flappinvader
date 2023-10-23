@@ -19,11 +19,11 @@ declare global {
 }
 
 Rune.initLogic({
-  minPlayers: 1,
+  minPlayers: 2,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
     const pumpkins: Pumpkins = {};
-    for (const playerId of allPlayerIds) {
+    for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
         x: 0,
@@ -38,6 +38,7 @@ Rune.initLogic({
           y: -100,
           rotation: 0,
         },
+        color: index
       };
     }
     return { pumpkins };
