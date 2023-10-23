@@ -1,5 +1,5 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer";
-import { Game, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
+import type { Game, Ghost, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
 
 // how hight the pumpkin jumps
 const JUMP_STRENGTH = 10;
@@ -22,7 +22,7 @@ Rune.initLogic({
   minPlayers: 2,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
-    const pumpkins: Pumpkins = {};
+    const pumpkins: Pumpkin[] = {};
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
@@ -38,10 +38,18 @@ Rune.initLogic({
           y: -100,
           rotation: 0,
         },
-        color: index
+        color: index,
       };
     }
-    return { pumpkins };
+    const ghosts: Ghost[] = [
+      { x: 355, y: 0, isAlive: true, position: "top" },
+      { x: 355, y: 1, isAlive: true, position: "top" },
+      { x: 355, y: 2, isAlive: true, position: "top" },
+      { x: 355, y: 3, isAlive: true, position: "top" },
+      { x: 355, y: 4, isAlive: true, position: "top" },
+      { x: 355, y: 5, isAlive: true, position: "top" },
+    ];
+    return { pumpkins, ghosts };
   },
   actions: {
     updatePumpkin: ({ id, updatePumpkin }, { game }) => {
@@ -51,7 +59,6 @@ Rune.initLogic({
       };
     },
     jumpPumpkin: ({ id }, { game }) => {
-
       //shoot a candy at jumb
       if (canShoot(game.pumpkins[id])) {
         shootCandy(id, game);
@@ -71,10 +78,10 @@ Rune.initLogic({
         continue;
       }
       // can't jump any higher
-      if (pumpkin.y <=0)  {
-         pumpkin.y = 1 
-         pumpkin.velocity = 0
-         continue
+      if (pumpkin.y <= 0) {
+        pumpkin.y = 1;
+        pumpkin.velocity = 0;
+        continue;
       }
       // Appliquer la gravité
       const tmpVelocity = pumpkin.velocity + pumpkin.gravity;
@@ -89,9 +96,27 @@ Rune.initLogic({
       if (!canShoot(pumpkin)) {
         moveCandy(pumpkinId, game);
       }
+
+      //MOVE GHOSTS
+      game.ghosts = game.ghosts.map((ghost) => ({
+        ...ghost,
+        x: ghost.x - 1,
+      }));
+
+      // If all ghost are killed or a ghost column passed over the screen, generate another column
+      if (game.ghosts.some((ghost) => ghost.x === 0) || game.ghosts.every((ghost) => !ghost.isAlive)) {
+        const ghostStartYPosition = getRandomPosition()
+
+        game.ghosts = game.ghosts.map((ghost) => ({
+          ...ghost,
+          x: 355,
+          position: ghostStartYPosition,
+        }));
+      }
     }
   },
   updatesPerSecond: 30,
+
 });
 
 // additionnal functions
@@ -129,3 +154,8 @@ const moveCandy = (id: PlayerId, game: Game) => {
     },
   };
 };
+function getRandomPosition() {
+  const positions = ["top", "middle", "bottom"];
+  const randomIndex = Math.floor(Math.random() * positions.length);
+  return positions[randomIndex];
+}

@@ -2,6 +2,7 @@ import type { PlayerId, Players } from "rune-games-sdk";
 
 export type Game = {
   pumpkins: Pumpkins
+  ghosts: Ghost[];
 };
 
 export type Candy = {
@@ -35,4 +36,11 @@ export type UpdatePumpkin = {
   rotation?: number;
   maxHeight?: number
   maxWidth?: number
+};
+
+export type Ghost = {
+  x: number;
+  y: number;
+  position: string;
+  isAlive: Boolean;
 };
