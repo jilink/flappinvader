@@ -1,5 +1,5 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer";
-import { Game, Pumpkins, UpdatePumpkin } from "./types";
+import { Game, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
 
 // how hight the pumpkin jumps
 const JUMP_STRENGTH = 10;
@@ -51,7 +51,9 @@ Rune.initLogic({
     },
     jumpPumpkin: ({ id }, { game }) => {
       //shoot a candy at jumb
-      shootCandy(id, game);
+      if (canShoot(game.pumpkins[id])) {
+        shootCandy(id, game);
+      }
       game.pumpkins = {
         ...game.pumpkins,
         [id]: { ...game.pumpkins[id], velocity: -JUMP_STRENGTH },
@@ -75,10 +77,11 @@ Rune.initLogic({
 
       pumpkin.velocity = tmpVelocity;
 
-    // MOVE PUMPKIN CANDIES
-    moveCandy(pumpkinId, game)
+      // MOVE PUMPKIN CANDIES
+      if (!canShoot(pumpkin)) {
+        moveCandy(pumpkinId, game);
+      }
     }
-
   },
   updatesPerSecond: 30,
 });
@@ -86,6 +89,13 @@ Rune.initLogic({
 // additionnal functions
 
 // CANDIES
+
+const canShoot = (pumpkin: Pumpkin) => {
+  return (
+    (pumpkin?.candy?.x || -1) > pumpkin.maxWidth ||
+    (pumpkin?.candy?.x || -1) < 0
+  );
+};
 
 const shootCandy = (id: PlayerId, game: Game) => {
   game.pumpkins = {
