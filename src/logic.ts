@@ -19,11 +19,11 @@ declare global {
 }
 
 Rune.initLogic({
-  minPlayers: 1,
+  minPlayers: 2,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
     const pumpkins: Pumpkins = {};
-    for (const playerId of allPlayerIds) {
+    for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
         x: 0,
@@ -38,6 +38,7 @@ Rune.initLogic({
           y: -100,
           rotation: 0,
         },
+        color: index
       };
     }
     return { pumpkins };
@@ -50,6 +51,7 @@ Rune.initLogic({
       };
     },
     jumpPumpkin: ({ id }, { game }) => {
+
       //shoot a candy at jumb
       if (canShoot(game.pumpkins[id])) {
         shootCandy(id, game);
@@ -66,7 +68,13 @@ Rune.initLogic({
       const pumpkin = game.pumpkins[pumpkinId];
       if (pumpkin.y >= pumpkin.maxHeight) {
         // game over
-        return;
+        continue;
+      }
+      // can't jump any higher
+      if (pumpkin.y <=0)  {
+         pumpkin.y = 1 
+         pumpkin.velocity = 0
+         continue
       }
       // Appliquer la gravité
       const tmpVelocity = pumpkin.velocity + pumpkin.gravity;

@@ -1,5 +1,5 @@
 import React from "react";
-import Pumpkin from "./MovingElements/Pumpkin";
+import { Pumpkins } from "./MovingElements/Pumpkin";
 import Ghosts from "./MovingElements/Ghosts";
 import Candy from "./MovingElements/Candy";
 
@@ -7,7 +7,7 @@ const Game = () => {
   return (
     <>
       <Ghosts />
-      <Pumpkin />
+      <Pumpkins />
       <Candy/>
     </>
   );
