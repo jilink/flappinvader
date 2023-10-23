@@ -4,6 +4,12 @@ export type Game = {
   pumpkins: Pumpkins
 };
 
+export type Candy = {
+  x: number;
+  y?: number;
+  rotation: number
+}
+
 export type Pumpkin = {
   id: PlayerId;
   x: number;
@@ -12,7 +18,9 @@ export type Pumpkin = {
   gravity: number;
   rotation: number
   maxHeight: number
+  maxWidth: number
   color?: string;
+  candy?: Candy
 }
 
 export type Pumpkins = {
@@ -26,4 +34,5 @@ export type UpdatePumpkin = {
   gravity?: number;
   rotation?: number;
   maxHeight?: number
+  maxWidth?: number
 };
