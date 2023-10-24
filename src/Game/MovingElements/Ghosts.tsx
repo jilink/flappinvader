@@ -1,18 +1,16 @@
 import { useContext } from "react";
 import { Sprite } from "@pixi/react";
 import GameContext from "../../context/game-context";
-
-const INIT_GHOSTS_Y_POSITION: Record<string, number> = {
-  top: 14,
-  middle: 2.5,
-  bottom: 1.5,
-};
-
-const INTER_GHOST_SPACING = 40;
+import { computeX, computeY } from "../../utils";
 
 const Ghosts = () => {
-  const { ghosts } = useContext(GameContext);
-  console.log(ghosts);
+  const { ghosts, game } = useContext(GameContext);
+  const INIT_GHOSTS_Y_POSITION: Record<string, number> = {
+    top: 0,
+    middle: window.innerHeight / 3,
+    bottom: window.innerHeight - window.innerHeight / 3,
+  };
+
   return (
     <>
       {ghosts.map(
@@ -23,10 +21,10 @@ const Ghosts = () => {
               image="/images/ghost.svg"
               anchor={1}
               scale={{ x: 0.5, y: 0.5 }}
-              x={ghost.x === 0 ? window.innerWidth : ghost.x}
+              x={computeX(ghost.x, window.innerWidth, game?.CANVA_WIDTH)}
               y={
-                window.innerHeight / INIT_GHOSTS_Y_POSITION[ghost.position] +
-                ghost.y * INTER_GHOST_SPACING
+                computeY(ghost.y, window.innerHeight, game?.CANVA_HEIGHT) +
+                INIT_GHOSTS_Y_POSITION[ghost.position]
               }
             />
           )
@@ -36,3 +34,7 @@ const Ghosts = () => {
 };
 
 export default Ghosts;
+
+function convertHeight(height1, height2) {
+  return (height2 * 100) / height1;
+}

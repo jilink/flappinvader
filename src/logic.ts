@@ -13,6 +13,12 @@ const JUMP_STRENGTH = 10;
 const CANDY_SPEED = 5;
 const CANDY_ROTATION_SPEED = 0.1;
 
+// Ghosts
+const NUM_GHOSTS = 6
+const INTER_GHOST_SPACING = 40;
+let GHOST_SPEED_ACC_COUNT = 0
+let GHOST_SPEED = 1
+
 type GameActions = {
   updatePumpkin: (params: {
     id: PlayerId;
@@ -46,14 +52,16 @@ Rune.initLogic({
         color: index,
       };
     }
-    const ghosts: Ghost[] = [
-      { x: 355, y: 0, isAlive: true, position: "top" },
-      { x: 355, y: 1, isAlive: true, position: "top" },
-      { x: 355, y: 2, isAlive: true, position: "top" },
-      { x: 355, y: 3, isAlive: true, position: "top" },
-      { x: 355, y: 4, isAlive: true, position: "top" },
-      { x: 355, y: 5, isAlive: true, position: "top" },
-    ];
+    const ghosts: Ghost[] = [];
+    const ghostStartYPosition = getRandomPosition();
+    for (let i = 0; i < NUM_GHOSTS; i++){
+      ghosts.push({
+        x: CANVA_WIDTH,
+        y: i * INTER_GHOST_SPACING + INTER_GHOST_SPACING,
+        isAlive: true,
+        position: ghostStartYPosition,
+      });
+    }
     return { pumpkins, ghosts, CANVA_WIDTH, CANVA_HEIGHT };
   },
   actions: {
@@ -106,16 +114,19 @@ Rune.initLogic({
       //MOVE GHOSTS
       game.ghosts = game.ghosts.map((ghost) => ({
         ...ghost,
-        x: ghost.x - 1,
+        x: ghost.x - GHOST_SPEED,
       }));
 
       // If all ghost are killed or a ghost column passed over the screen, generate another column
-      if (game.ghosts.some((ghost) => ghost.x === 0) || game.ghosts.every((ghost) => !ghost.isAlive)) {
-        const ghostStartYPosition = getRandomPosition()
+      if (
+        game.ghosts.some((ghost) => ghost.x < INTER_GHOST_SPACING) ||
+        game.ghosts.every((ghost) => !ghost.isAlive)
+      ) {
+        const ghostStartYPosition = getRandomPosition();
 
         game.ghosts = game.ghosts.map((ghost) => ({
           ...ghost,
-          x: 355,
+          x: CANVA_WIDTH,
           position: ghostStartYPosition,
         }));
       }

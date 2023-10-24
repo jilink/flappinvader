@@ -3,13 +3,6 @@ import { Pumpkins } from "./MovingElements/Pumpkin";
 import Ghosts from "./MovingElements/Ghosts";
 
 const Game = () => {
-  const INIT_GHOSTS_Y_POSITION = {
-    top: 14,
-    middle: 2.5,
-    bottom: 1.5,
-  };
-  const ghostIsHEre = true;
-
   return (
     <>
       <Ghosts />
