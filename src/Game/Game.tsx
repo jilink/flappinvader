@@ -1,7 +1,6 @@
 import React from "react";
 import { Pumpkins } from "./MovingElements/Pumpkin";
 import Ghosts from "./MovingElements/Ghosts";
-import Candy from "./MovingElements/Candy";
 
 const Game = () => {
   const INIT_GHOSTS_Y_POSITION = {
@@ -15,7 +14,6 @@ const Game = () => {
     <>
       <Ghosts />
       <Pumpkins />
-      <Candy />
     </>
   );
 };
