@@ -1,8 +1,14 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer";
 import { Game, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
 
+// Virtual? Canva dimensions
+const CANVA_HEIGHT = 800
+const CANVA_WIDTH = 350
+
 // how hight the pumpkin jumps
 const JUMP_STRENGTH = 10;
+
+// Candy
 const CANDY_SPEED = 5;
 const CANDY_ROTATION_SPEED = 0.1;
 
@@ -19,20 +25,18 @@ declare global {
 }
 
 Rune.initLogic({
-  minPlayers: 2,
+  minPlayers: 1,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
     const pumpkins: Pumpkins = {};
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
-        x: 0,
-        y: 0,
+        x: CANVA_WIDTH/5,
+        y: CANVA_HEIGHT/2,
         velocity: 0,
         gravity: 0.6,
         rotation: 0,
-        maxHeight: 0,
-        maxWidth: 0,
         candy: {
           x: -100,
           y: -100,
@@ -41,7 +45,7 @@ Rune.initLogic({
         color: index
       };
     }
-    return { pumpkins };
+    return { pumpkins, CANVA_WIDTH, CANVA_HEIGHT };
   },
   actions: {
     updatePumpkin: ({ id, updatePumpkin }, { game }) => {
@@ -63,10 +67,11 @@ Rune.initLogic({
     },
   },
   update: ({ game }: { game: Game }) => {
+    
     // MOVE PUMPKINS
     for (const pumpkinId of Object.keys(game.pumpkins)) {
       const pumpkin = game.pumpkins[pumpkinId];
-      if (pumpkin.y >= pumpkin.maxHeight) {
+      if (pumpkin.y >= CANVA_HEIGHT) {
         // game over
         continue;
       }
@@ -100,7 +105,7 @@ Rune.initLogic({
 
 const canShoot = (pumpkin: Pumpkin) => {
   return (
-    (pumpkin?.candy?.x || -1) > pumpkin.maxWidth ||
+    (pumpkin?.candy?.x || -1) > CANVA_WIDTH ||
     (pumpkin?.candy?.x || -1) < 0
   );
 };

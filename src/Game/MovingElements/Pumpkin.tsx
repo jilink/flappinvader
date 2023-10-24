@@ -5,35 +5,25 @@ import React, { useContext, useEffect } from "react";
 import { Sprite } from "@pixi/react";
 import GameContext from "../../context/game-context";
 import Candy from "./Candy";
+import { computeX, computeY } from "../../utils";
 
 type PumpkinProps = {
   id: string;
   isMe: boolean;
   pumpkin?: Pumpkin;
+  canvaHeight?: number
+  canvaWidth?: number
 };
 
-const Pumpkin: FC<PumpkinProps> = ({ id, isMe, pumpkin }) => {
-  useEffect(() => {
-    // we sent first position of pumpkin to server since it depends on screen size
-    Rune.actions.updatePumpkin({
-      id,
-      updatePumpkin: {
-        maxHeight: window.innerHeight,
-        maxWidth: window.innerWidth,
-        y: window.innerHeight / 2,
-        x: window.innerWidth / 5,
-      },
-    });
-  }, [window, id]);
-
+const Pumpkin: FC<PumpkinProps> = ({ id, isMe, pumpkin,canvaHeight=800, canvaWidth=350}) => {
   return (
     <Sprite
       image={`/images/pumpkins/pumpkin-${pumpkin?.color}.svg`}
       alpha={isMe ? 1 : 0.3}
       scale={{ x: 0.05, y: 0.05 }}
       anchor={0.5}
-      x={pumpkin?.x || window.innerWidth / 5}
-      y={pumpkin?.y || window.innerHeight / 2}
+      x={computeX(pumpkin?.x ||  window.innerWidth / 5, window.innerWidth, canvaWidth) }
+      y={computeY(pumpkin?.y || window.innerHeight / 2, window.innerHeight, canvaHeight)}
       rotation={pumpkin?.rotation}
     />
   );
@@ -41,16 +31,17 @@ const Pumpkin: FC<PumpkinProps> = ({ id, isMe, pumpkin }) => {
 
 const Pumpkins = () => {
   const { myId, game } = useContext(GameContext);
-
   return (
     <>
       {Object.keys(game?.pumpkins || []).map((id) => (
         <React.Fragment key={id}>
-          <Pumpkin id={id} pumpkin={game?.pumpkins[id]} isMe={id === myId} />
+          <Pumpkin canvaHeight={game?.CANVA_HEIGHT} canvaWidth={game?.CANVA_WIDTH} id={id} pumpkin={game?.pumpkins[id]} isMe={id === myId} />
           <Candy
             candy={game?.pumpkins[id].candy}
             isMe={id === myId}
             color={game?.pumpkins[id]?.color}
+            canvaHeight={game?.CANVA_HEIGHT}
+            canvaWidth={game?.CANVA_WIDTH}
           />
         </React.Fragment>
       ))}

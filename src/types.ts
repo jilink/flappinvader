@@ -2,6 +2,8 @@ import type { PlayerId, Players } from "rune-games-sdk";
 
 export type Game = {
   pumpkins: Pumpkins
+  CANVA_HEIGHT: number
+  CANVA_WIDTH: number
 };
 
 export type Candy = {
@@ -17,8 +19,6 @@ export type Pumpkin = {
   velocity: number;
   gravity: number;
   rotation: number
-  maxHeight: number
-  maxWidth: number
   color?: number;
   candy?: Candy
 }
@@ -33,6 +33,4 @@ export type UpdatePumpkin = {
   velocity?: number;
   gravity?: number;
   rotation?: number;
-  maxHeight?: number
-  maxWidth?: number
 };
