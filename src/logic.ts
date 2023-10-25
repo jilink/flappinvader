@@ -6,18 +6,22 @@ import type { Game, Ghost, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
 const CANVA_HEIGHT = 800
 const CANVA_WIDTH = 350
 
+// Pumpkin
 // how hight the pumpkin jumps
+const PUMPKIN_SIZE = 40
 const JUMP_STRENGTH = 10;
 
 // Candy
 const CANDY_SPEED = 5;
 const CANDY_ROTATION_SPEED = 0.1;
+const CANDY_SIZE=30
 
 // Ghosts
 const NUM_GHOSTS = 6
 const INTER_GHOST_SPACING = 40;
 let GHOST_SPEED_ACC_COUNT = 0
 let GHOST_SPEED = 1
+const GHOST_SIZE=40
 
 type GameActions = {
   updatePumpkin: (params: {
@@ -35,7 +39,7 @@ Rune.initLogic({
   minPlayers: 1,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
-    const pumpkins: Pumpkin[] = {};
+    const pumpkins: Pumpkins = {};
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
@@ -62,7 +66,7 @@ Rune.initLogic({
         position: ghostStartYPosition,
       });
     }
-    return { pumpkins, ghosts, CANVA_WIDTH, CANVA_HEIGHT };
+    return { pumpkins, ghosts, CANVA_WIDTH, CANVA_HEIGHT, PUMPKIN_SIZE, CANDY_SIZE, GHOST_SIZE };
   },
   actions: {
     updatePumpkin: ({ id, updatePumpkin }, { game }) => {
@@ -171,6 +175,10 @@ const moveCandy = (id: PlayerId, game: Game) => {
     },
   };
 };
+
+
+// GHOSTS
+
 function getRandomPosition() {
   const positions = ["top", "middle", "bottom"];
   const randomIndex = Math.floor(Math.random() * positions.length);

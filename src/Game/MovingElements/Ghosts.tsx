@@ -19,12 +19,21 @@ const Ghosts = () => {
             <Sprite
               key={ghost.y}
               image="/images/ghost.svg"
-              anchor={1}
-              scale={{ x: 0.5, y: 0.5 }}
-              x={computeX(ghost.x, window.innerWidth, game?.CANVA_WIDTH)}
+              anchor={0.5}
+              width={computeX(game?.GHOST_SIZE|| 40, window.innerWidth, game?.CANVA_WIDTH || window.innerWidth)}
+              height={computeY(game?.GHOST_SIZE || 40, window.innerHeight, game?.CANVA_HEIGHT ||window.innerHeight)}
+              // scale={{ x: 0.5, y: 0.5 }}
+              x={computeX(
+                ghost.x,
+                window.innerWidth,
+                game?.CANVA_WIDTH || window.innerWidth
+              )}
               y={
-                computeY(ghost.y, window.innerHeight, game?.CANVA_HEIGHT) +
-                INIT_GHOSTS_Y_POSITION[ghost.position]
+                computeY(
+                  ghost.y,
+                  window.innerHeight,
+                  game?.CANVA_HEIGHT || window.innerHeight
+                ) + INIT_GHOSTS_Y_POSITION[ghost.position]
               }
             />
           )
