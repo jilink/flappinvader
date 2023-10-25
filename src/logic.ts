@@ -1,27 +1,31 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer";
 import type { Game, Ghost, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
 
-
 // Virtual? Canva dimensions
-const CANVA_HEIGHT = 800
-const CANVA_WIDTH = 350
+const CANVA_HEIGHT = 800;
+const CANVA_WIDTH = 350;
 
 // Pumpkin
 // how hight the pumpkin jumps
-const PUMPKIN_SIZE = 40
+const PUMPKIN_SIZE = 40;
 const JUMP_STRENGTH = 10;
 
 // Candy
 const CANDY_SPEED = 5;
 const CANDY_ROTATION_SPEED = 0.1;
-const CANDY_SIZE=30
+const CANDY_SIZE = 30;
 
 // Ghosts
-const NUM_GHOSTS = 6
+const NUM_GHOSTS = 6;
 const INTER_GHOST_SPACING = 40;
-let GHOST_SPEED_ACC_COUNT = 0
-let GHOST_SPEED = 1
-const GHOST_SIZE=40
+let GHOST_SPEED_ACC_COUNT = 0;
+let GHOST_SPEED = 1;
+const GHOST_SIZE = 40;
+const INIT_GHOSTS_Y_POSITION: Record<string, number> = {
+  top: 0,
+  middle: CANVA_HEIGHT / 3,
+  bottom: CANVA_HEIGHT - CANVA_HEIGHT / 3,
+};
 
 type GameActions = {
   updatePumpkin: (params: {
@@ -43,8 +47,8 @@ Rune.initLogic({
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
-        x: CANVA_WIDTH/5,
-        y: CANVA_HEIGHT/2,
+        x: CANVA_WIDTH / 5,
+        y: CANVA_HEIGHT / 2,
         velocity: 0,
         gravity: 0.6,
         rotation: 0,
@@ -58,15 +62,26 @@ Rune.initLogic({
     }
     const ghosts: Ghost[] = [];
     const ghostStartYPosition = getRandomPosition();
-    for (let i = 0; i < NUM_GHOSTS; i++){
+    for (let i = 0; i < NUM_GHOSTS; i++) {
       ghosts.push({
         x: CANVA_WIDTH,
-        y: i * INTER_GHOST_SPACING + INTER_GHOST_SPACING,
+        y:
+          i * INTER_GHOST_SPACING +
+          INTER_GHOST_SPACING +
+          INIT_GHOSTS_Y_POSITION[ghostStartYPosition],
         isAlive: true,
         position: ghostStartYPosition,
       });
     }
-    return { pumpkins, ghosts, CANVA_WIDTH, CANVA_HEIGHT, PUMPKIN_SIZE, CANDY_SIZE, GHOST_SIZE };
+    return {
+      pumpkins,
+      ghosts,
+      CANVA_WIDTH,
+      CANVA_HEIGHT,
+      PUMPKIN_SIZE,
+      CANDY_SIZE,
+      GHOST_SIZE,
+    };
   },
   actions: {
     updatePumpkin: ({ id, updatePumpkin }, { game }) => {
@@ -87,7 +102,6 @@ Rune.initLogic({
     },
   },
   update: ({ game }: { game: Game }) => {
-    
     // MOVE PUMPKINS
     for (const pumpkinId of Object.keys(game.pumpkins)) {
       const pumpkin = game.pumpkins[pumpkinId];
@@ -137,7 +151,6 @@ Rune.initLogic({
     }
   },
   updatesPerSecond: 30,
-
 });
 
 // additionnal functions
@@ -146,8 +159,7 @@ Rune.initLogic({
 
 const canShoot = (pumpkin: Pumpkin) => {
   return (
-    (pumpkin?.candy?.x || -1) > CANVA_WIDTH ||
-    (pumpkin?.candy?.x || -1) < 0
+    (pumpkin?.candy?.x || -1) > CANVA_WIDTH || (pumpkin?.candy?.x || -1) < 0
   );
 };
 
@@ -174,9 +186,8 @@ const moveCandy = (id: PlayerId, game: Game) => {
       },
     },
   };
-  candyColidedGhost(id, game)
+  candyColidedGhost(id, game);
 };
-
 
 // GHOSTS
 
@@ -186,10 +197,16 @@ function getRandomPosition() {
   return positions[randomIndex];
 }
 
-
 // COLLISIONS
 
-const colides =(x1:number, y1:number, size1:number, x2:number, y2:number, size2:number) =>{
+const colides = (
+  x1: number,
+  y1: number,
+  size1: number,
+  x2: number,
+  y2: number,
+  size2: number
+) => {
   if (
     x1 + size1 / 2 > x2 - size2 / 2 &&
     x1 - size1 / 2 < x2 + size2 / 2 &&
@@ -198,17 +215,18 @@ const colides =(x1:number, y1:number, size1:number, x2:number, y2:number, size2:
   ) {
     return true;
   }
-  return false
-}
+  return false;
+};
 
-const candyColidedGhost = (id: PlayerId, game: Game)  => {
-  const candy = game.pumpkins[id].candy
-  
+const candyColidedGhost = (id: PlayerId, game: Game) => {
+  const candy = game.pumpkins[id].candy;
+
   for (const ghost of game.ghosts) {
-    if (candy && colides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE))  {
-      ghost.isAlive = false
-      
+    if (
+      candy &&
+      colides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE)
+    ) {
+      ghost.isAlive = false;
     }
   }
-}
-
+};

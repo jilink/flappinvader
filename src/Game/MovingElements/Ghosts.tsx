@@ -5,11 +5,6 @@ import { computeX, computeY } from "../../utils";
 
 const Ghosts = () => {
   const { ghosts, game } = useContext(GameContext);
-  const INIT_GHOSTS_Y_POSITION: Record<string, number> = {
-    top: 0,
-    middle: window.innerHeight / 3,
-    bottom: window.innerHeight - window.innerHeight / 3,
-  };
 
   return (
     <>
@@ -41,7 +36,7 @@ const Ghosts = () => {
                   ghost.y,
                   window.innerHeight,
                   game?.CANVA_HEIGHT || window.innerHeight
-                ) + INIT_GHOSTS_Y_POSITION[ghost.position]
+                )
               }
             />
           )
