@@ -4,12 +4,15 @@ export type Game = {
   pumpkins: Pumpkins;
   CANVA_HEIGHT: number;
   CANVA_WIDTH: number;
+  PUMPKIN_SIZE: number;
+  CANDY_SIZE: number;
+  GHOST_SIZE: number;
   ghosts: Ghost[];
 };
 
 export type Candy = {
   x: number;
-  y?: number;
+  y: number;
   rotation: number;
 };
 
