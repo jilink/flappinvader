@@ -223,10 +223,13 @@ const candyColidedGhost = (id: PlayerId, game: Game) => {
 
   for (const ghost of game.ghosts) {
     if (
-      candy &&
+      candy && ghost.isAlive &&
       colides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE)
     ) {
+      // Killed ghost with candy
+      // TODO add score
       ghost.isAlive = false;
+      game.pumpkins[id].candy = { ...candy, x: -100, y: -100, rotation: 0 };
     }
   }
 };
