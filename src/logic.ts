@@ -146,9 +146,10 @@ Rune.initLogic({
           ...ghost,
           x: CANVA_WIDTH,
           position: ghostStartYPosition,
-          isAlive: true
+          isAlive: true,
         }));
       }
+      ghostCollidedPumpkin(pumpkinId, game);
     }
   },
   updatesPerSecond: 30,
@@ -187,7 +188,7 @@ const moveCandy = (id: PlayerId, game: Game) => {
       },
     },
   };
-  candyColidedGhost(id, game);
+  candyCollidedGhost(id, game);
 };
 
 // GHOSTS
@@ -200,7 +201,7 @@ function getRandomPosition() {
 
 // COLLISIONS
 
-const colides = (
+const collides = (
   x1: number,
   y1: number,
   size1: number,
@@ -219,18 +220,32 @@ const colides = (
   return false;
 };
 
-const candyColidedGhost = (id: PlayerId, game: Game) => {
+const candyCollidedGhost = (id: PlayerId, game: Game) => {
   const candy = game.pumpkins[id].candy;
 
   for (const ghost of game.ghosts) {
     if (
-      candy && ghost.isAlive &&
-      colides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE)
+      candy &&
+      ghost.isAlive &&
+      collides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE)
     ) {
       // Killed ghost with candy
       // TODO add score
       ghost.isAlive = false;
       game.pumpkins[id].candy = { ...candy, x: -100, y: -100, rotation: 0 };
+    }
+  }
+};
+
+const ghostCollidedPumpkin = (id: PlayerId, game: Game) => {
+  const pumpkin = game.pumpkins[id];
+  for (const ghost of game.ghosts) {
+    if (
+      pumpkin &&
+      ghost.isAlive &&
+      collides(ghost.x, ghost.y, GHOST_SIZE, pumpkin.x, pumpkin.y, PUMPKIN_SIZE)
+    ) {
+      console.log("GAME OVER MF");
     }
   }
 };
