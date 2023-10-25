@@ -174,6 +174,7 @@ const moveCandy = (id: PlayerId, game: Game) => {
       },
     },
   };
+  candyColidedGhost(id, game)
 };
 
 
@@ -184,3 +185,30 @@ function getRandomPosition() {
   const randomIndex = Math.floor(Math.random() * positions.length);
   return positions[randomIndex];
 }
+
+
+// COLLISIONS
+
+const colides =(x1:number, y1:number, size1:number, x2:number, y2:number, size2:number) =>{
+  if (
+    x1 + size1 / 2 > x2 - size2 / 2 &&
+    x1 - size1 / 2 < x2 + size2 / 2 &&
+    y1 + size1 / 2 > y2 - size2 / 2 &&
+    y1 - size1 / 2 < y2 + size2 / 2
+  ) {
+    return true;
+  }
+  return false
+}
+
+const candyColidedGhost = (id: PlayerId, game: Game)  => {
+  const candy = game.pumpkins[id].candy
+  
+  for (const ghost of game.ghosts) {
+    if (candy && colides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE))  {
+      ghost.isAlive = false
+      
+    }
+  }
+}
+

@@ -20,8 +20,16 @@ const Ghosts = () => {
               key={ghost.y}
               image="/images/ghost.svg"
               anchor={0.5}
-              width={computeX(game?.GHOST_SIZE|| 40, window.innerWidth, game?.CANVA_WIDTH || window.innerWidth)}
-              height={computeY(game?.GHOST_SIZE || 40, window.innerHeight, game?.CANVA_HEIGHT ||window.innerHeight)}
+              width={computeX(
+                game?.GHOST_SIZE || 40,
+                window.innerWidth,
+                game?.CANVA_WIDTH || window.innerWidth
+              )}
+              height={computeY(
+                game?.GHOST_SIZE || 40,
+                window.innerHeight,
+                game?.CANVA_HEIGHT || window.innerHeight
+              )}
               // scale={{ x: 0.5, y: 0.5 }}
               x={computeX(
                 ghost.x,

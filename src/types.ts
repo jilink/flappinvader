@@ -12,7 +12,7 @@ export type Game = {
 
 export type Candy = {
   x: number;
-  y?: number;
+  y: number;
   rotation: number;
 };
 
