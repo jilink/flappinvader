@@ -146,6 +146,7 @@ Rune.initLogic({
           ...ghost,
           x: CANVA_WIDTH,
           position: ghostStartYPosition,
+          isAlive: true
         }));
       }
     }
