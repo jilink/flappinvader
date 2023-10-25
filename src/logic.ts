@@ -1,5 +1,6 @@
 import type { PlayerId, RuneClient } from "rune-games-sdk/multiplayer";
-import { Game, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
+import type { Game, Ghost, Pumpkin, Pumpkins, UpdatePumpkin } from "./types";
+
 
 // Virtual? Canva dimensions
 const CANVA_HEIGHT = 800
@@ -11,6 +12,12 @@ const JUMP_STRENGTH = 10;
 // Candy
 const CANDY_SPEED = 5;
 const CANDY_ROTATION_SPEED = 0.1;
+
+// Ghosts
+const NUM_GHOSTS = 6
+const INTER_GHOST_SPACING = 40;
+let GHOST_SPEED_ACC_COUNT = 0
+let GHOST_SPEED = 1
 
 type GameActions = {
   updatePumpkin: (params: {
@@ -28,7 +35,7 @@ Rune.initLogic({
   minPlayers: 1,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
-    const pumpkins: Pumpkins = {};
+    const pumpkins: Pumpkin[] = {};
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
@@ -42,10 +49,20 @@ Rune.initLogic({
           y: -100,
           rotation: 0,
         },
-        color: index
+        color: index,
       };
     }
-    return { pumpkins, CANVA_WIDTH, CANVA_HEIGHT };
+    const ghosts: Ghost[] = [];
+    const ghostStartYPosition = getRandomPosition();
+    for (let i = 0; i < NUM_GHOSTS; i++){
+      ghosts.push({
+        x: CANVA_WIDTH,
+        y: i * INTER_GHOST_SPACING + INTER_GHOST_SPACING,
+        isAlive: true,
+        position: ghostStartYPosition,
+      });
+    }
+    return { pumpkins, ghosts, CANVA_WIDTH, CANVA_HEIGHT };
   },
   actions: {
     updatePumpkin: ({ id, updatePumpkin }, { game }) => {
@@ -55,7 +72,6 @@ Rune.initLogic({
       };
     },
     jumpPumpkin: ({ id }, { game }) => {
-
       //shoot a candy at jumb
       if (canShoot(game.pumpkins[id])) {
         shootCandy(id, game);
@@ -76,10 +92,10 @@ Rune.initLogic({
         continue;
       }
       // can't jump any higher
-      if (pumpkin.y <=0)  {
-         pumpkin.y = 1 
-         pumpkin.velocity = 0
-         continue
+      if (pumpkin.y <= 0) {
+        pumpkin.y = 1;
+        pumpkin.velocity = 0;
+        continue;
       }
       // Appliquer la gravité
       const tmpVelocity = pumpkin.velocity + pumpkin.gravity;
@@ -94,9 +110,30 @@ Rune.initLogic({
       if (!canShoot(pumpkin)) {
         moveCandy(pumpkinId, game);
       }
+
+      //MOVE GHOSTS
+      game.ghosts = game.ghosts.map((ghost) => ({
+        ...ghost,
+        x: ghost.x - GHOST_SPEED,
+      }));
+
+      // If all ghost are killed or a ghost column passed over the screen, generate another column
+      if (
+        game.ghosts.some((ghost) => ghost.x < INTER_GHOST_SPACING) ||
+        game.ghosts.every((ghost) => !ghost.isAlive)
+      ) {
+        const ghostStartYPosition = getRandomPosition();
+
+        game.ghosts = game.ghosts.map((ghost) => ({
+          ...ghost,
+          x: CANVA_WIDTH,
+          position: ghostStartYPosition,
+        }));
+      }
     }
   },
   updatesPerSecond: 30,
+
 });
 
 // additionnal functions
@@ -134,3 +171,8 @@ const moveCandy = (id: PlayerId, game: Game) => {
     },
   };
 };
+function getRandomPosition() {
+  const positions = ["top", "middle", "bottom"];
+  const randomIndex = Math.floor(Math.random() * positions.length);
+  return positions[randomIndex];
+}

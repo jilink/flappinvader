@@ -1,19 +1,23 @@
-import type {FC, PropsWithChildren} from "react"
+import type { FC, PropsWithChildren } from "react";
 import { Stage, TilingSprite } from "@pixi/react";
 import { useContext, useEffect, useState } from "react";
 import { PlayerId } from "rune-games-sdk";
+import { Container } from "pixi.js";
 
 type CanvasProps = {
-  id: PlayerId
-}
+  id: PlayerId;
+};
 
-export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({id, children}) => {
+export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
+  id,
+  children,
+}) => {
   const [backgroundX, setBacgrkoundx] = useState(0);
   const backgroundSpeed = -1;
 
   const handleJump = () => {
-    Rune.actions.jumpPumpkin({id})
-  }
+    Rune.actions.jumpPumpkin({ id });
+  };
 
   useEffect(() => {
     const scrollBacgrkound = setInterval(() => {

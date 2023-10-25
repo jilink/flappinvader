@@ -1,5 +1,5 @@
 import type { Player, Players } from "rune-games-sdk";
-import type { Game, Pumpkin } from "../types";
+import type { Game, Ghost, Pumpkin } from "../types";
 
 import React from "react";
 
@@ -10,6 +10,7 @@ type GameContextType = {
   me?: Player;
   mePumpkin?: Pumpkin;
   meAlive?: boolean;
+  ghosts: Ghost[];
 };
 
 const GameContext = React.createContext<GameContextType>({});

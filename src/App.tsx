@@ -34,6 +34,7 @@ function App() {
           myId,
           me: players?.[myId || 0],
           mePumpkin: game.pumpkins?.[myId || 0],
+          ghosts: game.ghosts,
         }}
       >
         <GameComponent />
