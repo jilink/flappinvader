@@ -40,12 +40,13 @@ declare global {
 }
 
 Rune.initLogic({
-  minPlayers: 1,
+  minPlayers: 2,
   maxPlayers: 4,
   setup: (allPlayerIds): Game => {
     const pumpkins: Pumpkins = {};
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
+        isAlive: true,
         id: playerId,
         x: CANVA_WIDTH/5,
         y: CANVA_HEIGHT/2,
@@ -92,6 +93,8 @@ Rune.initLogic({
       };
     },
     jumpPumpkin: ({ id }, { game }) => {
+      // PUMPKIN IS DEAD
+      if (!game.pumpkins[id].isAlive) return
       //shoot a candy at jumb
       if (canShoot(game.pumpkins[id])) {
         shootCandy(id, game);
@@ -105,13 +108,13 @@ Rune.initLogic({
   update: ({ game }: { game: Game }) => {
     // MOVE PUMPKINS
     for (const pumpkinId of Object.keys(game.pumpkins)) {
+      const pumpkin = game.pumpkins[pumpkinId];
       // UPDATE SCORE
       updateScore(pumpkinId, game, 0.1)
 
     // MOVE PUMPKINS
-      const pumpkin = game.pumpkins[pumpkinId];
       if (pumpkin.y >= CANVA_HEIGHT) {
-        // game over
+        gameOver(pumpkinId, game)
         continue;
       }
       // can't jump any higher
@@ -133,7 +136,8 @@ Rune.initLogic({
       if (!canShoot(pumpkin)) {
         moveCandy(pumpkinId, game);
       }
-
+      ghostCollidedPumpkin(pumpkinId, game);
+    }
       //MOVE GHOSTS
       game.ghosts = game.ghosts.map((ghost) => ({
         ...ghost,
@@ -154,8 +158,6 @@ Rune.initLogic({
           isAlive: true,
         }));
       }
-      ghostCollidedPumpkin(pumpkinId, game);
-    }
   },
   updatesPerSecond: 30,
 });
@@ -248,7 +250,7 @@ const ghostCollidedPumpkin = (id: PlayerId, game: Game) => {
       ghost.isAlive &&
       collides(ghost.x, ghost.y, GHOST_SIZE, pumpkin.x, pumpkin.y, PUMPKIN_SIZE)
     ) {
-      console.log("GAME OVER MF");
+        gameOver(id, game)
     }
   }
 };
@@ -258,5 +260,23 @@ const ghostCollidedPumpkin = (id: PlayerId, game: Game) => {
 
 const updateScore = (id: PlayerId, game:Game, points: number) => {
   const pumpkin = game.pumpkins[id]
+  // PUMPKIN IS DEAD
+  if (!pumpkin.isAlive) return
   pumpkin.score = pumpkin.score + points
+}
+
+
+// GAME OVER
+
+const gameOver = (id: PlayerId, game: Game) => {
+  game.pumpkins[id]= {
+      ...game.pumpkins[id],
+      isAlive: false,
+      candy: {
+        ...game.pumpkins[id].candy,
+        y: -100,
+        x: -100,
+        rotation:0,
+      },
+    }
 }
