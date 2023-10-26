@@ -17,6 +17,7 @@ export type Candy = {
 };
 
 export type Pumpkin = {
+  isAlive: boolean;
   id: PlayerId;
   x: number;
   y: number;
