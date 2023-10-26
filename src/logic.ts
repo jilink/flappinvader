@@ -185,6 +185,7 @@ const moveCandy = (id: PlayerId, game: Game) => {
       ...game.pumpkins[id],
       candy: {
         ...game.pumpkins[id].candy,
+        y: game.pumpkins[id].candy?.y || -100,
         x: (game.pumpkins[id].candy?.x || 0) + CANDY_SPEED,
         rotation:
           (game.pumpkins[id].candy?.rotation || 0) + CANDY_ROTATION_SPEED,
@@ -232,7 +233,7 @@ const candyCollidedGhost = (id: PlayerId, game: Game) => {
       collides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE)
     ) {
       // Killed ghost with candy
-      // TODO add score
+      updateScore(id, game, 5)
       ghost.isAlive = false;
       game.pumpkins[id].candy = { ...candy, x: -100, y: -100, rotation: 0 };
     }
