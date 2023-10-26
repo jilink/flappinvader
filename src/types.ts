@@ -20,6 +20,7 @@ export type Pumpkin = {
   id: PlayerId;
   x: number;
   y: number;
+  score: number;
   velocity: number;
   gravity: number;
   rotation: number;

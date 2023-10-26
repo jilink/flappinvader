@@ -47,8 +47,9 @@ Rune.initLogic({
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         id: playerId,
-        x: CANVA_WIDTH / 5,
-        y: CANVA_HEIGHT / 2,
+        x: CANVA_WIDTH/5,
+        y: CANVA_HEIGHT/2,
+        score: 0,
         velocity: 0,
         gravity: 0.6,
         rotation: 0,
@@ -104,6 +105,10 @@ Rune.initLogic({
   update: ({ game }: { game: Game }) => {
     // MOVE PUMPKINS
     for (const pumpkinId of Object.keys(game.pumpkins)) {
+      // UPDATE SCORE
+      updateScore(pumpkinId, game, 0.1)
+
+    // MOVE PUMPKINS
       const pumpkin = game.pumpkins[pumpkinId];
       if (pumpkin.y >= CANVA_HEIGHT) {
         // game over
@@ -176,18 +181,16 @@ const shootCandy = (id: PlayerId, game: Game) => {
 };
 
 const moveCandy = (id: PlayerId, game: Game) => {
-  game.pumpkins = {
-    ...game.pumpkins,
-    [id]: {
+  game.pumpkins[id]= {
       ...game.pumpkins[id],
       candy: {
         ...game.pumpkins[id].candy,
+        y: game.pumpkins[id].candy?.y || -100,
         x: (game.pumpkins[id].candy?.x || 0) + CANDY_SPEED,
         rotation:
           (game.pumpkins[id].candy?.rotation || 0) + CANDY_ROTATION_SPEED,
       },
     },
-  };
   candyCollidedGhost(id, game);
 };
 
@@ -230,7 +233,7 @@ const candyCollidedGhost = (id: PlayerId, game: Game) => {
       collides(ghost.x, ghost.y, GHOST_SIZE, candy.x, candy.y, CANDY_SIZE)
     ) {
       // Killed ghost with candy
-      // TODO add score
+      updateScore(id, game, 5)
       ghost.isAlive = false;
       game.pumpkins[id].candy = { ...candy, x: -100, y: -100, rotation: 0 };
     }
@@ -249,3 +252,11 @@ const ghostCollidedPumpkin = (id: PlayerId, game: Game) => {
     }
   }
 };
+
+
+// SCORE
+
+const updateScore = (id: PlayerId, game:Game, points: number) => {
+  const pumpkin = game.pumpkins[id]
+  pumpkin.score = pumpkin.score + points
+}
