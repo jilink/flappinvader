@@ -47,6 +47,7 @@ Rune.initLogic({
     for (const [index, playerId] of allPlayerIds.entries()) {
       pumpkins[playerId] = {
         isAlive: true,
+        isShooting: false,
         id: playerId,
         x: CANVA_WIDTH / 5,
         y: CANVA_HEIGHT / 2,
@@ -97,6 +98,7 @@ Rune.initLogic({
       if (!game.pumpkins[id].isAlive) return;
       //shoot a candy at jumb
       if (canShoot(game.pumpkins[id])) {
+        game.pumpkins[id].isShooting = true
         shootCandy(id, game);
       }
       game.pumpkins = {
@@ -135,6 +137,8 @@ Rune.initLogic({
       // MOVE PUMPKIN CANDIES
       if (!canShoot(pumpkin)) {
         moveCandy(pumpkinId, game);
+      } else {
+        pumpkin.isShooting= false
       }
       ghostCollidedPumpkin(pumpkinId, game);
     }

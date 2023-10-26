@@ -17,6 +17,7 @@ export type Candy = {
 };
 
 export type Pumpkin = {
+  isShooting: boolean;
   isAlive: boolean;
   id: PlayerId;
   x: number;

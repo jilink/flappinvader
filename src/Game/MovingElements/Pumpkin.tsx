@@ -25,6 +25,7 @@ const Pumpkin: FC<PumpkinProps> = ({
   pumpkinSize = 40,
 }) => {
   return (
+    <>
     <Sprite
       width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
       height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
@@ -43,6 +44,47 @@ const Pumpkin: FC<PumpkinProps> = ({
       )}
       rotation={pumpkin?.rotation}
     />
+
+    {/* Diying animation */}
+    {!pumpkin?.isAlive && <Sprite
+      width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
+      height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
+      image={`/images/animations/dead-pumpkin.png`}
+      alpha={isMe ? 1 : 0.3}
+      anchor={0.5}
+      x={computeX(
+        pumpkin?.x || window.innerWidth / 5,
+        window.innerWidth,
+        canvaWidth
+      )}
+      y={computeY(
+        pumpkin?.y || window.innerHeight / 2,
+        window.innerHeight,
+        canvaHeight
+      )}
+      rotation={pumpkin?.rotation}
+    />}
+    {/* shooting animation */}
+    {pumpkin?.isShooting && <Sprite
+      width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
+      height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
+      image={`/images/animations/shoot.png`}
+      alpha={isMe ? 1 : 0.3}
+      anchor={0.5}
+      x={computeX(
+        pumpkin?.x || window.innerWidth / 5,
+        window.innerWidth,
+        canvaWidth
+      )}
+      y={computeY(
+        pumpkin?.y || window.innerHeight / 2,
+        window.innerHeight,
+        canvaHeight
+      )}
+      rotation={pumpkin?.rotation}
+    />}
+
+    </>
   );
 };
 
