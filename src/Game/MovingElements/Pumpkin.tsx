@@ -6,6 +6,7 @@ import { Sprite } from "@pixi/react";
 import GameContext from "../../context/game-context";
 import Candy from "./Candy";
 import { computeX, computeY } from "../../utils";
+import useSound from "../../hooks/useSounds";
 
 type PumpkinProps = {
   id: string;
@@ -24,6 +25,17 @@ const Pumpkin: FC<PumpkinProps> = ({
   canvaWidth = 350,
   pumpkinSize = 40,
 }) => {
+
+  const {play, stop}  = useSound({key: "DEAD"})
+
+  useEffect(() => {
+    if (pumpkin && !pumpkin.isAlive) {
+      play()
+    }
+    return () => {
+      stop()
+    }
+  }, [pumpkin?.isAlive])
   return (
     <>
     <Sprite
@@ -65,7 +77,7 @@ const Pumpkin: FC<PumpkinProps> = ({
       rotation={pumpkin?.rotation}
     />}
     {/* shooting animation */}
-    {pumpkin?.isShooting && <Sprite
+    {/* {pumpkin?.isShooting && <Sprite
       width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
       height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
       image={`/images/animations/shoot.png`}
@@ -82,7 +94,7 @@ const Pumpkin: FC<PumpkinProps> = ({
         canvaHeight
       )}
       rotation={pumpkin?.rotation}
-    />}
+    />} */}
 
     </>
   );
