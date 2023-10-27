@@ -9,6 +9,7 @@ export type Game = {
   GHOST_SIZE: number;
   ghosts: Ghost[];
   gameStarted: boolean;
+  ghost_speed: number;
 };
 
 export type Candy = {
