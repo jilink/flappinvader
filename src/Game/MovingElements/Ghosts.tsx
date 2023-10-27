@@ -11,9 +11,10 @@ const Ghosts = () => {
 
   return (
     <>
-      {ghosts.map((ghost) => (
+      {ghosts.map(
+        (ghost) =>
         <Ghost key={ghost.y} ghost={ghost} game={game} />
-      ))}
+      )}
     </>
   );
 };
@@ -38,7 +39,6 @@ export const Ghost: FC<GhostProps> = ({ ghost, game }) => {
     <>
       {ghost.isAlive && (
         <Sprite
-          key={ghost.y}
           image="/images/ghost.svg"
           anchor={0.5}
           width={computeX(

@@ -8,6 +8,7 @@ export type Game = {
   CANDY_SIZE: number;
   GHOST_SIZE: number;
   ghosts: Ghost[];
+  gameStarted: boolean;
   ghost_speed: number;
 };
 
@@ -29,6 +30,7 @@ export type Pumpkin = {
   rotation: number;
   color?: number;
   candy?: Candy;
+  gameStarted?: boolean;
 };
 
 export type Pumpkins = {

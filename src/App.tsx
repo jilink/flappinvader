@@ -26,21 +26,30 @@ function App() {
   }
 
   return (
-    <Canvas id={myId}>
-      <GameContext.Provider
-        value={{
-          game,
-          players,
-          myId,
-          me: players?.[myId || 0],
-          mePumpkin: game.pumpkins?.[myId || 0],
-          ghosts: game.ghosts,
-        }}
-      >
-        <GameComponent />
-      </GameContext.Provider>
-    </Canvas>
+    <>
+      {game.gameStarted ? (
+        <Canvas id={myId}>
+          <GameContext.Provider
+            value={{
+              game,
+              players,
+              myId,
+              me: players?.[myId || 0],
+              mePumpkin: game.pumpkins?.[myId || 0],
+              ghosts: game.ghosts,
+            }}
+          >
+            <GameComponent />
+          </GameContext.Provider>
+        </Canvas>
+      ) : (
+        <Homepage id={myId} />
+      )}{" "}
+    </>
   );
 }
 
 export default App;
+
+import React from "react";
+import Homepage from "./Game/Homepage.tsx";
