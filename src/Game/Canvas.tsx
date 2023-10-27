@@ -3,6 +3,7 @@ import { Stage, TilingSprite } from "@pixi/react";
 import { useContext, useEffect, useState } from "react";
 import { PlayerId } from "rune-games-sdk";
 import { Container } from "pixi.js";
+import useSound from "../hooks/useSounds";
 
 type CanvasProps = {
   id: PlayerId;
@@ -14,8 +15,12 @@ export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
 }) => {
   const [backgroundX, setBacgrkoundx] = useState(0);
   const backgroundSpeed = -1;
+  const {play, stop} = useSound({key: "JUMP" })
 
   const handleJump = () => {
+    //TODO Disable if game has not started yet or if player is dead
+    // stop()
+    play()
     Rune.actions.jumpPumpkin({ id });
   };
 
