@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'JejuHallasan';
-  src: url('./assets/fonts/JejuHallasan-Regular.ttf') format('truetype');
+  font-family: "JejuHallasan";
+  src: url("./assets/fonts/JejuHallasan-Regular.ttf") format("truetype");
 }
 
 :root {
@@ -29,17 +29,11 @@ a:hover {
 }
 
 body {
-  font-family: 'JejuHallasan', sans-serif;
+  font-family: "JejuHallasan", sans-serif;
   margin: 0;
   display: grid;
-  place-items: center;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
@@ -67,11 +61,79 @@ button:focus-visible {
 
 .homepage_main {
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: start;
+  background-image: url("../public/images/game_bg.png");
+  background-position: center;
+  background-size: cover;
 }
 
 .homepage_title {
-  font-size: 24px;
+  margin: 11rem 0 5rem;
+  font-size: 2rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #ae445a;
+  text-shadow: 1px 0 0 black, 0 1px 0 black, -1px 0 0 black, 0 -1px 0 black;
+}
+
+.animated_bat {
+  height: 40px;
+  position: absolute;
+  animation: batFlying 5s linear infinite;
+}
+
+.animated_bat.second {
+  animation: batFlying2 5s linear infinite;
+}
+
+@keyframes batFlying {
+
+  0%,
+  100% {
+    bottom: 100px;
+    left: 100px;
+  }
+
+  25% {
+    bottom: 150px;
+    left: 250px;
+  }
+
+  50% {
+    bottom: 350px;
+    left: 200px;
+  }
+
+  75% {
+    bottom: 300px;
+    left: 50px;
+  }
+}
+
+@keyframes batFlying2 {
+
+  0%,
+  100% {
+    bottom: 350px;
+    left: 200px;
+  }
+
+  25% {
+    bottom: 300px;
+    left: 50px;
+  }
+
+  50% {
+    bottom: 100px;
+    left: 100px;
+  }
+
+  75% {
+    bottom: 350px;
+    left: 200px;
+  }
 }

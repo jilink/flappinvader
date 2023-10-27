@@ -31,13 +31,11 @@ const Ghosts = () => {
                 window.innerWidth,
                 game?.CANVA_WIDTH || window.innerWidth
               )}
-              y={
-                computeY(
-                  ghost.y,
-                  window.innerHeight,
-                  game?.CANVA_HEIGHT || window.innerHeight
-                )
-              }
+              y={computeY(
+                ghost.y,
+                window.innerHeight,
+                game?.CANVA_HEIGHT || window.innerHeight
+              )}
             />
           )
       )}

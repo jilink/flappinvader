@@ -12,14 +12,27 @@ const Homepage: FC<Props> = ({ id }) => {
   return (
     <>
       {!wait ? (
-        <main className="homepage_main">
-          <div className="homepage_title">
-            <h1>Flapp'invader</h1>
-          </div>
-          <div>
-            <button onClick={handleStart}>Start</button>
-          </div>
-        </main>
+        <>
+          <img
+            className="animated_bat"
+            src="https://media1.giphy.com/media/0xR7MUO0hJfWtco7C6/giphy.gif"
+          />
+
+          <main className="homepage_main">
+            <div>
+              <h1 className="homepage_title">Flapp'invader</h1>
+            </div>
+            <div>
+              <button onClick={handleStart} className="homepage_btn">
+                Start
+              </button>
+            </div>
+          </main>
+          <img
+            className="animated_bat second"
+            src="https://media1.giphy.com/media/0xR7MUO0hJfWtco7C6/giphy.gif"
+          />
+        </>
       ) : (
         <WaitingPage />
       )}
