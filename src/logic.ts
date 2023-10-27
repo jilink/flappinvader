@@ -33,6 +33,7 @@ type GameActions = {
     updatePumpkin: UpdatePumpkin;
   }) => void;
   jumpPumpkin: (params: { id: PlayerId }) => void;
+  startGame: (params: { id: PlayerId }) => void;
 };
 
 declare global {
@@ -61,6 +62,7 @@ Rune.initLogic({
           rotation: 0,
         },
         color: index,
+        gameStarted : false
       };
     }
     const ghosts: Ghost[] = [];
@@ -76,6 +78,7 @@ Rune.initLogic({
         position: ghostStartYPosition,
       });
     }
+    const gameStarted = false;
     return {
       pumpkins,
       ghosts,
@@ -84,6 +87,7 @@ Rune.initLogic({
       PUMPKIN_SIZE,
       CANDY_SIZE,
       GHOST_SIZE,
+      gameStarted,
     };
   },
   actions: {
@@ -98,13 +102,18 @@ Rune.initLogic({
       if (!game.pumpkins[id].isAlive) return;
       //shoot a candy at jumb
       if (canShoot(game.pumpkins[id])) {
-        game.pumpkins[id].isShooting = true
+        game.pumpkins[id].isShooting = true;
         shootCandy(id, game);
       }
       game.pumpkins = {
         ...game.pumpkins,
         [id]: { ...game.pumpkins[id], velocity: -JUMP_STRENGTH },
       };
+    },
+
+    startGame: ({ id }, { game }) => {
+      game.pumpkins[id].gameStarted = true
+      game.gameStarted = true;
     },
   },
   update: ({ game }: { game: Game }) => {
@@ -138,7 +147,7 @@ Rune.initLogic({
       if (!canShoot(pumpkin)) {
         moveCandy(pumpkinId, game);
       } else {
-        pumpkin.isShooting= false
+        pumpkin.isShooting = false;
       }
       ghostCollidedPumpkin(pumpkinId, game);
     }
@@ -281,8 +290,9 @@ const gameOver = (id: PlayerId, game: Game) => {
     },
   };
   // EVERYBODY IS DEAD
-  if (Object.keys(game.pumpkins).some(id => game.pumpkins[id].isAlive)) return
-  // mapping socres
+  if (Object.keys(game.pumpkins).some((id) => game.pumpkins[id].isAlive))
+    return;
+  // mapping scores
   const players: { [key: string]: number } = {};
   for (const id in game.pumpkins) {
     if (game.pumpkins.hasOwnProperty(id)) {
