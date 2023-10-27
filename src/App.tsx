@@ -43,7 +43,7 @@ function App() {
           </GameContext.Provider>
         </Canvas>
       ) : (
-        <Homepage />
+        <Homepage id={myId} />
       )}{" "}
     </>
   );

@@ -62,7 +62,7 @@ Rune.initLogic({
           rotation: 0,
         },
         color: index,
-        gameStarted : false
+        gameStarted: false,
       };
     }
     const ghosts: Ghost[] = [];
@@ -112,11 +112,23 @@ Rune.initLogic({
     },
 
     startGame: ({ id }, { game }) => {
-      game.pumpkins[id].gameStarted = true
+      game.pumpkins[id].gameStarted = true;
+      if (
+        Object.keys(game.pumpkins).some(
+          (id) => game.pumpkins[id].gameStarted !== true
+        )
+      ) {
+        return;
+      }
+
       game.gameStarted = true;
     },
   },
   update: ({ game }: { game: Game }) => {
+    if (!game.gameStarted) {
+      return;
+    }
+
     // MOVE PUMPKINS
     for (const pumpkinId of Object.keys(game.pumpkins)) {
       const pumpkin = game.pumpkins[pumpkinId];
