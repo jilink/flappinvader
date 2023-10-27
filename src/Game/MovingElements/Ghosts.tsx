@@ -41,9 +41,7 @@ const Ghosts = () => {
               )}
             />
           )
-      {ghosts.map((ghost) => (
-        <Ghost key={ghost.y} ghost={ghost} game={game} />
-      ))}
+      )}
     </>
   );
 };

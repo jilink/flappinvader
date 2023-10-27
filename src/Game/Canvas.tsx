@@ -2,7 +2,6 @@ import type { FC, PropsWithChildren } from "react";
 import { Stage, TilingSprite } from "@pixi/react";
 import { useEffect, useState } from "react";
 import { PlayerId } from "rune-games-sdk";
-import { Container } from "pixi.js";
 import useSound from "../hooks/useSounds";
 
 type CanvasProps = {

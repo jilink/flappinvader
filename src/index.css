@@ -72,12 +72,22 @@ button:focus-visible {
 }
 
 .homepage_title {
-  margin: 11rem 0 5rem;
+  margin: 11rem 0 4rem;
   font-size: 2rem;
   line-height: 1.4;
   text-transform: uppercase;
   color: #ae445a;
   text-shadow: 1px 0 0 black, 0 1px 0 black, -1px 0 0 black, 0 -1px 0 black;
+}
+
+.homepage_waiting_title {
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #F39F5A;
+  text-shadow: 1px 0 0 black, 0 1px 0 black, -1px 0 0 black, 0 -1px 0 black;
+  animation: blinking 2s linear infinite;
 }
 
 .homepage_btn {
@@ -149,5 +159,19 @@ button:focus-visible {
   75% {
     bottom: 350px;
     left: 200px;
+  }
+}
+
+@keyframes blinking {
+  0% {
+    opacity: 100%
+  }
+
+  50% {
+    opacity: 30%
+  }
+
+  100% {
+    opacity: 100%
   }
 }

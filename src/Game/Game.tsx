@@ -1,4 +1,3 @@
-import React from "react";
 import { Pumpkins } from "./MovingElements/Pumpkin";
 import Ghosts from "./MovingElements/Ghosts";
 import Score from "./Score";
@@ -6,7 +5,7 @@ import Score from "./Score";
 const Game = () => {
   return (
     <>
-    <Score/>
+      <Score />
       <Ghosts />
       <Pumpkins />
     </>
