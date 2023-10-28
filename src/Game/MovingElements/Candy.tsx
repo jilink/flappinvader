@@ -20,7 +20,7 @@ const Candy: FC<CandyProps> = ({ candy, isMe, color, canvaHeight=800, canvaWidth
       width={computeX(candySize, window.innerWidth, canvaWidth)}
       height={computeY(candySize, window.innerHeight, canvaHeight)}
       image={`/images/candies/candy-${color}.svg`}
-      // alpha={isMe ? 1 : 0.3}
+      alpha={isMe ? 1 : 0.9}
       anchor={0.5}
       x={computeX(candy?.x || -100,window.innerWidth , canvaWidth)}
       y={computeY(candy?.y || window.innerHeight / 2,window.innerHeight , canvaHeight)}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Canvas } from "./Game/Canvas.tsx";
 import GameComponent from "./Game/Game.tsx";
 import GameContext from "./context/game-context.tsx";
+import Homepage from "./Game/Homepage.tsx";
 
 function App() {
   const [game, setGame] = useState<Game>();
@@ -50,6 +51,3 @@ function App() {
 }
 
 export default App;
-
-import React from "react";
-import Homepage from "./Game/Homepage.tsx";

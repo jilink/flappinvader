@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { PlayerId } from "rune-games-sdk";
 import useSound from "../hooks/useSounds";
 import AnimatedBat from "/images/giphy.webp";
@@ -14,7 +14,7 @@ const Homepage: FC<Props> = ({ id }) => {
     return () => {
       stopMusic();
     };
-  }, []);
+  }, [playMusic, stopMusic]);
   const handleStart = () => {
     Rune.actions.startGame({ id });
     setWait(true);
@@ -39,10 +39,6 @@ const Homepage: FC<Props> = ({ id }) => {
       <img className="animated_bat second" src={AnimatedBat} />
     </main>
   );
-};
-
-const WaitingPage = () => {
-  return <div>WaitingPage</div>;
 };
 
 export default Homepage;

@@ -22,7 +22,7 @@ export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
     return () => {
       stopMusic();
     };
-  }, []);
+  }, [playMusic, stopMusic]);
 
   useEffect(() => {
     const scrollBacgrkound = setInterval(() => {
