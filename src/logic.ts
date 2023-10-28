@@ -313,7 +313,7 @@ const gameOver = (id: PlayerId, game: Game) => {
   // mapping scores
   const players: { [key: string]: number } = {};
   for (const id in game.pumpkins) {
-    if (game.pumpkins.hasOwnProperty(id)) {
+    if (Object.prototype.hasOwnProperty.call(game.pumpkins, id)) {
       players[id] = Math.floor(game.pumpkins[id].score);
     }
   }
