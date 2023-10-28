@@ -1,4 +1,4 @@
-import type { Players } from "rune-games-sdk";
+import type { PlayerId, Players } from "rune-games-sdk";
 import type { Game } from "./types.ts";
 
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import Homepage from "./Game/Homepage.tsx";
 
 function App() {
   const [game, setGame] = useState<Game>();
-  const [myId, setMyId] = useState<string>();
+  const [myId, setMyId] = useState<PlayerId |undefined>();
   const [players, setPlayers] = useState<Players>();
 
   useEffect(() => {

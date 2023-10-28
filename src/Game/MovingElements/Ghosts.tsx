@@ -11,7 +11,7 @@ const Ghosts = () => {
 
   return (
     <>
-      {ghosts.map(
+      {ghosts?.map(
         (ghost) =>
         <Ghost key={ghost.y} ghost={ghost} game={game} />
       )}

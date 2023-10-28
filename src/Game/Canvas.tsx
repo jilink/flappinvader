@@ -5,7 +5,7 @@ import { PlayerId } from "rune-games-sdk";
 import useSound from "../hooks/useSounds";
 
 type CanvasProps = {
-  id: PlayerId;
+  id?: PlayerId;
 };
 
 export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
@@ -38,7 +38,7 @@ export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
     //TODO Disable if game has not started yet or if player is dead
     stop();
     play();
-    Rune.actions.jumpPumpkin({ id });
+    Rune.actions.jumpPumpkin({ id: id || "" });
   };
 
   return (

@@ -10,7 +10,7 @@ type GameContextType = {
   me?: Player;
   mePumpkin?: Pumpkin;
   meAlive?: boolean;
-  ghosts: Ghost[];
+  ghosts?: Ghost[];
 };
 
 const GameContext = React.createContext<GameContextType>({});

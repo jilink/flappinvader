@@ -3,7 +3,7 @@ import { PlayerId } from "rune-games-sdk";
 import useSound from "../hooks/useSounds";
 import AnimatedBat from "/images/giphy.webp";
 type Props = {
-  id: PlayerId;
+  id?: PlayerId;
 };
 const Homepage: FC<Props> = ({ id }) => {
   const [wait, setWait] = useState(false);
@@ -16,7 +16,7 @@ const Homepage: FC<Props> = ({ id }) => {
     };
   }, [playMusic, stopMusic]);
   const handleStart = () => {
-    Rune.actions.startGame({ id });
+    Rune.actions.startGame({ id: id || "" });
     setWait(true);
   };
   return (
