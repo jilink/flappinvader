@@ -199,7 +199,7 @@ Rune.initLogic({
 
 const canShoot = (pumpkin: Pumpkin) => {
   return (
-    (pumpkin?.candy?.x || -1) > CANVA_WIDTH || (pumpkin?.candy?.x || -1) < 0
+    (pumpkin?.candy?.x || -1) > CANVA_WIDTH + CANDY_SIZE/2 || (pumpkin?.candy?.x || -1) < 0
   );
 };
 
