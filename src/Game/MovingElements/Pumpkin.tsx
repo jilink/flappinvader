@@ -18,66 +18,66 @@ type PumpkinProps = {
 };
 
 const Pumpkin: FC<PumpkinProps> = ({
-  id,
   isMe,
   pumpkin,
   canvaHeight = 800,
   canvaWidth = 350,
   pumpkinSize = 40,
 }) => {
-
-  const {play, stop}  = useSound({key: "DEAD"})
+  const { play, stop } = useSound({ key: "DEAD" });
 
   useEffect(() => {
     if (pumpkin && !pumpkin.isAlive) {
-      play()
+      play();
     }
     return () => {
-      stop()
-    }
-  }, [pumpkin?.isAlive])
+      stop();
+    };
+  }, [pumpkin?.isAlive, play, pumpkin, stop]);
   return (
     <>
-    <Sprite
-      width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
-      height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
-      image={`/images/pumpkins/pumpkin-${pumpkin?.color}.svg`}
-      alpha={isMe ? 1 : 0.3}
-      anchor={0.5}
-      x={computeX(
-        pumpkin?.x || window.innerWidth / 5,
-        window.innerWidth,
-        canvaWidth
-      )}
-      y={computeY(
-        pumpkin?.y || window.innerHeight / 2,
-        window.innerHeight,
-        canvaHeight
-      )}
-      rotation={pumpkin?.rotation}
-    />
+      <Sprite
+        width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
+        height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
+        image={`/images/pumpkins/pumpkin-${pumpkin?.color}.svg`}
+        alpha={isMe ? 1 : 0.3}
+        anchor={0.5}
+        x={computeX(
+          pumpkin?.x || window.innerWidth / 5,
+          window.innerWidth,
+          canvaWidth
+        )}
+        y={computeY(
+          pumpkin?.y || window.innerHeight / 2,
+          window.innerHeight,
+          canvaHeight
+        )}
+        rotation={pumpkin?.rotation}
+      />
 
-    {/* Diying animation */}
-    {!pumpkin?.isAlive && <Sprite
-      width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
-      height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
-      image={`/images/animations/dead-pumpkin.png`}
-      alpha={isMe ? 1 : 0.3}
-      anchor={0.5}
-      x={computeX(
-        pumpkin?.x || window.innerWidth / 5,
-        window.innerWidth,
-        canvaWidth
+      {/* Diying animation */}
+      {!pumpkin?.isAlive && (
+        <Sprite
+          width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
+          height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
+          image={`/images/animations/dead-pumpkin.png`}
+          alpha={isMe ? 1 : 0.3}
+          anchor={0.5}
+          x={computeX(
+            pumpkin?.x || window.innerWidth / 5,
+            window.innerWidth,
+            canvaWidth
+          )}
+          y={computeY(
+            pumpkin?.y || window.innerHeight / 2,
+            window.innerHeight,
+            canvaHeight
+          )}
+          rotation={pumpkin?.rotation}
+        />
       )}
-      y={computeY(
-        pumpkin?.y || window.innerHeight / 2,
-        window.innerHeight,
-        canvaHeight
-      )}
-      rotation={pumpkin?.rotation}
-    />}
-    {/* shooting animation */}
-    {/* {pumpkin?.isShooting && <Sprite
+      {/* shooting animation */}
+      {/* {pumpkin?.isShooting && <Sprite
       width={computeX(pumpkinSize, window.innerWidth, canvaWidth)}
       height={computeY(pumpkinSize, window.innerHeight, canvaHeight)}
       image={`/images/animations/shoot.png`}
@@ -95,7 +95,6 @@ const Pumpkin: FC<PumpkinProps> = ({
       )}
       rotation={pumpkin?.rotation}
     />} */}
-
     </>
   );
 };

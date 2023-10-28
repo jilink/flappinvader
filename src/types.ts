@@ -1,4 +1,4 @@
-import type { PlayerId, Players } from "rune-games-sdk";
+import type { PlayerId } from "rune-games-sdk";
 
 export type Game = {
   pumpkins: Pumpkins;
