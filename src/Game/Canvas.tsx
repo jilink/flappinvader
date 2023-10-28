@@ -54,7 +54,7 @@ export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
         width={window.innerWidth}
         height={window.innerHeight}
         tilePosition={{ x: backgroundX, y: 0 }}
-        tileScale={{ x: 1, y: 0.89 }}
+        tileScale={{ x: 1, y: 0.86 }}
       />
       {children}
     </Stage>
