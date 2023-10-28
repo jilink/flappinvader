@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from "react";
 import { Stage, TilingSprite } from "@pixi/react";
 import { useEffect, useState } from "react";
 import { PlayerId } from "rune-games-sdk";
-import useSound from "../hooks/useSounds";
+import useSound, { SoundKey } from "../hooks/useSounds";
 
 type CanvasProps = {
   id?: PlayerId;
@@ -14,8 +14,10 @@ export const Canvas: FC<PropsWithChildren<CanvasProps>> = ({
 }) => {
   const [backgroundX, setBacgrkoundx] = useState(0);
   const backgroundSpeed = -1;
-  const { play, stop } = useSound({ key: "JUMP" });
-  const { play: playMusic, stop: stopMusic } = useSound({ key: "MUSIC" });
+  const { play, stop } = useSound({ key: SoundKey.JUMP });
+  const { play: playMusic, stop: stopMusic } = useSound({
+    key: SoundKey.MUSIC,
+  });
 
   useEffect(() => {
     playMusic();

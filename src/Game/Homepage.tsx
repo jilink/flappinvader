@@ -1,13 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
 import { PlayerId } from "rune-games-sdk";
-import useSound from "../hooks/useSounds";
+import useSound, { SoundKey } from "../hooks/useSounds";
 import AnimatedBat from "/images/giphy.webp";
 type Props = {
   id?: PlayerId;
 };
 const Homepage: FC<Props> = ({ id }) => {
   const [wait, setWait] = useState(false);
-  const { play: playMusic, stop: stopMusic } = useSound({ key: "MUSIC" });
+  const { play: playMusic, stop: stopMusic } = useSound({
+    key: SoundKey.MUSIC,
+  });
 
   useEffect(() => {
     playMusic();

@@ -4,17 +4,16 @@ import { useContext, useEffect } from "react";
 import { Sprite } from "@pixi/react";
 import GameContext from "../../context/game-context";
 import { computeX, computeY } from "../../utils";
-import useSound from "../../hooks/useSounds";
+import useSound, { SoundKey } from "../../hooks/useSounds";
 
 const Ghosts = () => {
   const { ghosts, game } = useContext(GameContext);
 
   return (
     <>
-      {ghosts?.map(
-        (ghost) =>
+      {ghosts?.map((ghost) => (
         <Ghost key={ghost.y} ghost={ghost} game={game} />
-      )}
+      ))}
     </>
   );
 };
@@ -25,7 +24,7 @@ type GhostProps = {
 };
 
 export const Ghost: FC<GhostProps> = ({ ghost, game }) => {
-  const { play, stop } = useSound({ key: "GHOST_DEAD" });
+  const { play, stop } = useSound({ key: SoundKey.GHOST_DEAD });
 
   useEffect(() => {
     if (ghost && !ghost.isAlive) {

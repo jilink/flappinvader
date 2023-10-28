@@ -6,7 +6,7 @@ import { Sprite } from "@pixi/react";
 import GameContext from "../../context/game-context";
 import Candy from "./Candy";
 import { computeX, computeY } from "../../utils";
-import useSound from "../../hooks/useSounds";
+import useSound, { SoundKey } from "../../hooks/useSounds";
 
 type PumpkinProps = {
   id: string;
@@ -24,7 +24,7 @@ const Pumpkin: FC<PumpkinProps> = ({
   canvaWidth = 350,
   pumpkinSize = 40,
 }) => {
-  const { play, stop } = useSound({ key: "DEAD" });
+  const { play, stop } = useSound({ key: SoundKey.DEAD });
 
   useEffect(() => {
     if (pumpkin && !pumpkin.isAlive) {
