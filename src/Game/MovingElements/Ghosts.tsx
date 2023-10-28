@@ -33,7 +33,7 @@ export const Ghost: FC<GhostProps> = ({ ghost, game }) => {
     return () => {
       stop();
     };
-  }, [ghost?.isAlive, ghost, play, stop]);
+  }, [ghost?.isAlive]);
   return (
     <>
       {ghost.isAlive && (
