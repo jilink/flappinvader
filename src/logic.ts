@@ -124,6 +124,40 @@ Rune.initLogic({
       game.gameStarted = true;
     },
   },
+  events: {
+    playerJoined: (playerId, { game }) => {
+      game.pumpkins[playerId] = {
+        isAlive: true,
+        isShooting: false,
+        id: playerId,
+        x: CANVA_WIDTH / 5,
+        y: CANVA_HEIGHT / 2,
+        score: 0,
+        velocity: 0,
+        gravity: 0.6,
+        rotation: 0,
+        candy: {
+          x: -100,
+          y: -100,
+          rotation: 0,
+        },
+        color: Object.keys(game.pumpkins).length,
+        gameStarted: false,
+      };
+    },
+    playerLeft: (playerId, { game }) => {
+      delete game.pumpkins[playerId];
+      // prevent infite waiting screen
+      if (
+        Object.keys(game.pumpkins).some(
+          (id) => game.pumpkins[id].gameStarted !== true
+        )
+      ) {
+        return;
+      }
+      game.gameStarted = true;
+    },
+  },
   update: ({ game }: { game: Game }) => {
     if (!game.gameStarted) {
       return;
@@ -174,8 +208,7 @@ Rune.initLogic({
       game.ghosts.some((ghost) => ghost.x < INTER_GHOST_SPACING) ||
       game.ghosts.every((ghost) => !ghost.isAlive)
     ) {
-      
-      game.ghost_speed = game.ghost_speed+0.2
+      game.ghost_speed = game.ghost_speed + 0.2;
       const ghostStartYPosition = getRandomPosition();
 
       game.ghosts = game.ghosts.map((ghost, i) => ({
@@ -199,7 +232,8 @@ Rune.initLogic({
 
 const canShoot = (pumpkin: Pumpkin) => {
   return (
-    (pumpkin?.candy?.x || -1) > CANVA_WIDTH + CANDY_SIZE/2 || (pumpkin?.candy?.x || -1) < 0
+    (pumpkin?.candy?.x || -1) > CANVA_WIDTH + CANDY_SIZE / 2 ||
+    (pumpkin?.candy?.x || -1) < 0
   );
 };
 
